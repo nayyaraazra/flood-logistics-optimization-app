@@ -1,3 +1,97 @@
+# 🌊 Flood Logistics Optimization System
+
+Real-time logistics route optimization during flood conditions in Jakarta, Indonesia.
+
+![Project Banner](screenshot.png)
+
+## 🚀 Features
+
+- **Real-Time Flood Data**: Integrates with Open-Meteo Flood API
+- **Route Optimization**: Dijkstra algorithm with flood-level penalties
+- **Interactive Visualization**: SVG-based map with step-by-step playback
+- **Cost Analysis**: Detailed breakdown of route segments
+- **Multiple Vehicles**: Truck and motorcycle options with different flood tolerances
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React 18, TypeScript
+- **Styling**: Tailwind CSS
+- **API**: Open-Meteo Flood API
+- **Algorithm**: Modified Dijkstra with branch & bound
+- **Icons**: Lucide React
+- **Notifications**: React Hot Toast
+
+## 📊 How It Works
+
+1. **Data Acquisition**: Fetches river discharge data from satellite/ground sensors
+2. **Conversion**: Transforms discharge (m³/s) to flood risk levels (0-4)
+3. **Optimization**: Calculates optimal route avoiding high-risk areas
+4. **Visualization**: Displays route with real-time algorithm execution
+
+## 🎯 Algorithm
+```typescript
+Cost = Distance × (1 + (FloodLevel × 0.5))
+
+If FloodLevel > VehicleMaxLevel:
+  Cost = Infinity (blocked)
+```
+
+## 📦 Installation
+
+\`\`\`bash
+# Clone repository
+git clone https://github.com/YOUR-USERNAME/flood-logistics-app.git
+cd flood-logistics-app
+
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+\`\`\`
+
+## 🌐 Live Demo
+
+[View Live Demo](https://your-deployed-url.vercel.app)
+
+## 📸 Screenshots
+
+### Main Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Real-Time Data
+![Real-Time](screenshots/realtime.png)
+
+### Algorithm Playback
+![Playback](screenshots/playback.png)
+
+## 🔧 Configuration
+
+Create `.env` file (optional):
+\`\`\`
+VITE_API_URL=https://flood-api.open-meteo.com
+\`\`\`
+
+## 🤝 Contributing
+
+Contributions welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file
+
+## 👨‍💻 Author
+
+**Your Name**
+- GitHub: [@yourusername](https://github.com/yourusername)
+- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+- Email: your.email@example.com
+
+## 🙏 Acknowledgments
+
+- [Open-Meteo](https://open-meteo.com) for free flood data API
+- Jakarta geography data
+- Inspired by real-world logistics challenges
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
