@@ -6,8 +6,21 @@ Real-time logistics route optimization during flood conditions in Jakarta, Indon
 
 ## 😮‍💨 Problem
 
-- **Flood Challenges Nowadays**:
-- ****
+Jakarta experiences severe flooding during monsoon season, creating significant challenges for logistics operations. Traditional routing systems optimize for distance and traffic but **fail to account for rapidly changing flood conditions**.
+
+**Current Limitations:**
+- Route planning doesn't integrate real-time flood data
+- Dispatchers make manual adjustments during flood events
+- Drivers lack current flood information
+- Routes become impassable without warning
+
+**The Technical Gap:**
+While real-time flood data is available from satellite and ground sensors, this data isn't integrated into logistics route optimization systems.
+
+**The Opportunity:**
+This project demonstrates how integrating real-time river discharge data with intelligent pathfinding algorithms can enable flood-aware route planning.
+
+
 ## 🪄 Approach (Features)
 
 - **Real-Time Flood Data**: Integrates with Open-Meteo Flood API
