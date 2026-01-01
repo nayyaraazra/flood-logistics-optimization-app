@@ -4,7 +4,11 @@ Real-time logistics route optimization during flood conditions in Jakarta, Indon
 
 ![Project Banner](screenshot.png)
 
-## 🚀 Features
+## 😮‍💨 Problem
+
+- **Flood Challenges Nowadays**:
+- ****
+## 🪄 Approach (Features)
 
 - **Real-Time Flood Data**: Integrates with Open-Meteo Flood API
 - **Route Optimization**: Dijkstra algorithm with flood-level penalties
