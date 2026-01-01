@@ -2,7 +2,8 @@
 
 Real-time logistics route optimization during flood conditions in Jakarta, Indonesia.
 
-![Project Banner](screenshot.png)
+![Project Banner](<img width="741" height="516" alt="image" src="https://github.com/user-attachments/assets/edd7f84e-e4cd-4e6b-8884-834aa9d6a66c" />
+)
 
 ## 😮‍💨 Problem
 
