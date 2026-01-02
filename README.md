@@ -55,16 +55,14 @@ If FloodLevel > VehicleMaxLevel:
 
 \`\`\`bash
 # Clone repository
+```
 git clone https://github.com/YOUR-USERNAME/flood-logistics-app.git
 cd flood-logistics-app
-```
 # Install dependencies
-```
 npm install
-```
 # Run development server
-```
 npm run dev
+```
 \`\`\`
 
 ## 🌐 Live Demo
@@ -94,9 +92,8 @@ VITE_API_URL=https://flood-api.open-meteo.com
 Contributions welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
 
 ## 👨‍💻 Author
-**Your Name**
+**Nayyara Aqila Azra**
 - GitHub: [@yourusername](https://github.com/nayyaraazra)
-- Email: your.email@example.com
 
 ## 🙏 Acknowledgments
 
