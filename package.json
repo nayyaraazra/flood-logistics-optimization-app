@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "flowbite": "^4.0.1",
+    "flowbite-react": "^0.12.15",
     "lucide-react": "^0.468.0",
     "openmeteo": "^1.2.3",
     "react": "^18.3.1",
