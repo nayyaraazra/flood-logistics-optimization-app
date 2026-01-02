@@ -54,8 +54,8 @@ If FloodLevel > VehicleMaxLevel:
 ## 📦 Installation
 
 \`\`\`bash
-# Clone repository
 ```
+# Clone repository
 git clone https://github.com/YOUR-USERNAME/flood-logistics-app.git
 cd flood-logistics-app
 # Install dependencies
@@ -83,9 +83,9 @@ npm run dev
 ## 🔧 Configuration
 
 Create `.env` file (optional):
-\`\`\`
+```
 VITE_API_URL=https://flood-api.open-meteo.com
-\`\`\`
+```
 
 ## 🤝 Contributing
 
