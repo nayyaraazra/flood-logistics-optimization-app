@@ -2,8 +2,6 @@
 
 Real-time logistics route optimization during flood conditions in Jakarta, Indonesia.
 
-(<img width="741" height="516" alt="image" src="https://github.com/user-attachments/assets/edd7f84e-e4cd-4e6b-8884-834aa9d6a66c" />)
-
 ## 😮‍💨 Problem
 
 Jakarta experiences severe flooding during monsoon season, creating significant challenges for logistics operations. Traditional routing systems optimize for distance and traffic but **fail to account for rapidly changing flood conditions**.
