@@ -2,7 +2,6 @@
 
 Real-time logistics route optimization during flood conditions in Jakarta, Indonesia.
 
-![Project Banner]
 (<img width="741" height="516" alt="image" src="https://github.com/user-attachments/assets/edd7f84e-e4cd-4e6b-8884-834aa9d6a66c" />)
 
 ## 😮‍💨 Problem
@@ -32,7 +31,7 @@ This project demonstrates how integrating real-time river discharge data with in
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 18, TypeScript
+- **Frontend**: React 18, JavaScript, TypeScript
 - **Styling**: Tailwind CSS
 - **API**: Open-Meteo Flood API
 - **Algorithm**: Modified Dijkstra with branch & bound
@@ -47,7 +46,7 @@ This project demonstrates how integrating real-time river discharge data with in
 4. **Visualization**: Displays route with real-time algorithm execution
 
 ## 🎯 Algorithm
-```typescript
+```javascript
 Cost = Distance × (1 + (FloodLevel × 0.5))
 
 If FloodLevel > VehicleMaxLevel:
@@ -75,13 +74,13 @@ npm run dev
 ## 📸 Screenshots
 
 ### Main Dashboard
-![Dashboard](screenshots/dashboard.png)
+<img width="1451" height="995" alt="image" src="https://github.com/user-attachments/assets/1f9a29c0-7c4a-498a-86e3-a2aff2b40199" />
 
 ### Real-Time Data
-![Real-Time](screenshots/realtime.png)
+<img width="874" height="906" alt="image" src="https://github.com/user-attachments/assets/18f67a69-b225-4b63-83f4-874423cfb8b9" />
 
 ### Algorithm Playback
-![Playback](screenshots/playback.png)
+<img width="1483" height="955" alt="image" src="https://github.com/user-attachments/assets/fdc043b8-a23b-4348-b2d4-143c6e43c63a" />
 
 ## 🔧 Configuration
 
@@ -94,15 +93,9 @@ VITE_API_URL=https://flood-api.open-meteo.com
 
 Contributions welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
 
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) file
-
 ## 👨‍💻 Author
-
 **Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+- GitHub: [@yourusername](https://github.com/nayyaraazra)
 - Email: your.email@example.com
 
 ## 🙏 Acknowledgments
@@ -110,6 +103,7 @@ MIT License - see [LICENSE](LICENSE) file
 - [Open-Meteo](https://open-meteo.com) for free flood data API
 - Jakarta geography data
 - Inspired by real-world logistics challenges
+  
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
