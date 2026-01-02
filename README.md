@@ -57,11 +57,13 @@ If FloodLevel > VehicleMaxLevel:
 # Clone repository
 git clone https://github.com/YOUR-USERNAME/flood-logistics-app.git
 cd flood-logistics-app
-
+```
 # Install dependencies
+```
 npm install
-
+```
 # Run development server
+```
 npm run dev
 \`\`\`
 
