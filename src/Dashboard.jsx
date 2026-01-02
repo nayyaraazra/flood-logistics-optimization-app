@@ -25,32 +25,12 @@ const Dashboard = ({ onStartApp }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-slate-200">
+      {/* <header className="bg-white shadow-sm border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="bg-blue-600 p-3 rounded-xl">
-                <Droplets className="text-white" size={32} />
-              </div>
-              <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-slate-900">
-                  Jakarta Flood Logistics System
-                </h1>
-                <p className="text-slate-600 mt-1 text-sm md:text-base">
-                  Real-time route optimization during flood conditions
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={onStartApp}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl"
-            >
-              <Play size={20} fill="currentColor" />
-              Launch App
-            </button>
           </div>
         </div>
-      </header>
+      </header> */}
 
       {/* Hero Section with Image */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
@@ -67,7 +47,7 @@ const Dashboard = ({ onStartApp }) => {
               </div>
               
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
-                Intelligent Routing for Flood-Prone Areas
+                Intelligent Routing for Flood-Prone Areas in Jakarta
               </h2>
               
               <p className="text-blue-100 text-lg mb-6">
@@ -95,7 +75,7 @@ const Dashboard = ({ onStartApp }) => {
                 className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-lg font-bold text-lg transition-all shadow-xl hover:shadow-2xl inline-flex items-center gap-3"
               >
                 <Play size={24} fill="currentColor" />
-                Try Live Demo
+                Launch App
               </button>
             </div>
 
@@ -104,22 +84,15 @@ const Dashboard = ({ onStartApp }) => {
               {/* Placeholder for your image */}
               <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 border-2 border-white/20">
                 {/* Option 1: Add your own image here */}
-                <img 
-                  src="./image.png" 
-                  alt="Jakarta Flood Logistics"
-                  className="w-full h-auto rounded-xl shadow-2xl"
-                /> 
                 
                 {/* Option 2: Temporary placeholder with icon (remove when you add image) */}
                 <div className="aspect-video bg-gradient-to-br from-blue-400/20 to-blue-600/20 rounded-xl flex items-center justify-center border-2 border-dashed border-white/30">
                   <div className="text-center">
-                    <MapIcon size={64} className="mx-auto mb-4 text-white/50" />
+                    {/* <MapIcon size={64} className="mx-auto mb-4 text-white/50" /> */}
                     <p className="text-white/70 text-sm font-medium">
-                      Add your hero image here<br />
-                      (Jakarta map, flood illustration, or app screenshot)
-                    </p>
-                    <p className="text-white/50 text-xs mt-2">
-                      Recommended: 800x600px or 16:9 ratio
+                    <img src="./image copy.png" alt="Jakarta Flood Logistics"
+                    className="w-full h-auto rounded-xl shadow-2xl"
+                    />  <br />
                     </p>
                   </div>
                 </div>
