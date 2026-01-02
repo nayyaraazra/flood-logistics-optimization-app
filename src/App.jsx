@@ -10,7 +10,7 @@ import { floodDataService } from './services/floodDataService';
 import toast, { Toaster } from 'react-hot-toast';
 import Dashboard from './Dashboard';
 
-// --- DATA GEOGRAFIS (JAKARTA) - JANGAN UBAH ---
+// --- DATA GEOGRAFIS (JAKARTA) 
 const LOCATIONS = [
   // UTARA
   { id: 'TG_PRIOK', name: 'Pelabuhan Tg. Priok', x: 700, y: 50, type: 'warehouse', zone: 'North' },
@@ -192,7 +192,7 @@ const calculateOptimalPath = (startId, endId, floodLevels, vehicleType) => {
   return { path: bestPath ? bestPath.path : [], cost: minCost, logs: bestPath ? bestPath.logs : [], allExplorations: fullLogs };
 };
 
-// --- YOUR FLOOD LOGISTICS APP (RENAMED FROM App) ---
+// --- MAIN FLOOD LOGISTICS APP ---
 const FloodLogisticsApp = ({ onBackToDashboard }) => {
   const [activeTab, setActiveTab] = useState('map'); 
   const [floodLevels, setFloodLevels] = useState({});
@@ -329,7 +329,6 @@ const FloodLogisticsApp = ({ onBackToDashboard }) => {
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col">
       <Toaster position="top-right" />
       
-      {/* ALL YOUR ORIGINAL JSX - Keep everything exactly as it was */}
       <header className="bg-slate-900 text-white p-4 shadow-lg sticky top-0 z-50">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-3">
@@ -737,36 +736,6 @@ const MapView = ({ locations, connections, floodLevels, selectedNodeId, setSelec
         </div>
       )}
       
-      {dataSource === 'real' && detailedFloodData && detailedFloodData.length > 0 && (
-        <div className="absolute top-4 right-4 z-10 bg-white/95 backdrop-blur-sm p-3 rounded-lg shadow-lg border border-slate-200 max-w-xs">
-          <div className="text-xs font-bold text-slate-700 mb-2 flex items-center gap-2">
-            <Droplets size={14} className="text-blue-500"/>
-            Real-Time Flood Status
-          </div>
-          <div className="space-y-1 text-[10px]">
-            <div className="flex justify-between items-center">
-              <span className="text-slate-600">Locations Monitored:</span>
-              <span className="font-bold text-slate-800">{detailedFloodData.length}</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-slate-600">Active Floods:</span>
-              <span className="font-bold text-red-600">
-                {detailedFloodData.filter(d => d.floodLevel > 0).length}
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-slate-600">High Risk (Lvl 3+):</span>
-              <span className="font-bold text-orange-600">
-                {detailedFloodData.filter(d => d.floodLevel >= 3).length}
-              </span>
-            </div>
-            <div className="pt-2 mt-2 border-t border-slate-200 text-slate-500 italic">
-              📊 River discharge shown below nodes
-            </div>
-          </div>
-        </div>
-      )}
-      
       <svg viewBox={`0 0 ${viewBoxW} ${viewBoxH}`} className="w-full h-full bg-slate-50 cursor-crosshair">
         {connections.map((conn, idx) => {
           const start = locations.find(l => l.id === conn[0]);
@@ -1021,7 +990,7 @@ const CostAnalysis = ({ pathResult, vehicleType, floodLevels, params }) => {
   );
 };
 
-// --- WRAPPER COMPONENT (NEW - THIS INTEGRATES EVERYTHING) ---
+// --- WRAPPER COMPONENT (INTEGRATES EVERYTHING) ---
 const App = () => {
   const [showDashboard, setShowDashboard] = useState(true);
 

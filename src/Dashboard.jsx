@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   MapIcon, Droplets, AlertTriangle, CheckCircle, 
-  Navigation, Play 
+  Navigation, Play, RefreshCw
 } from 'lucide-react';
+import { floodDataService } from './services/floodDataService';
 
 const LOCATIONS = [
   { id: 'TG_PRIOK', name: 'Pelabuhan Tg. Priok', zone: 'North', type: 'Warehouse', typical_risk: 'Low' },
@@ -22,16 +23,45 @@ const LOCATIONS = [
 ];
 
 const Dashboard = ({ onStartApp }) => {
+  // State declarations
+  const [floodData, setFloodData] = useState([]);
+  const [isLoadingData, setIsLoadingData] = useState(true);
+  const [lastUpdateTime, setLastUpdateTime] = useState('');
+
+  // Fetch real-time data on component mount
+  useEffect(() => {
+    fetchFloodData();
+  }, []);
+
+  // Function to fetch real-time flood data
+  const fetchFloodData = async () => {
+    setIsLoadingData(true);
+    try {
+      const detailedData = await floodDataService.getDetailedFloodData();
+      setFloodData(detailedData);
+      setLastUpdateTime(new Date().toLocaleTimeString('id-ID'));
+    } catch (error) {
+      console.error('Error fetching flood data:', error);
+    } finally {
+      setIsLoadingData(false);
+    }
+  };
+
+  // Helper function to get flood data for a location
+  const getLocationData = (locationId) => {
+    return floodData.find(d => d.locationId === locationId);
+  };
+
+  // Calculate statistics
+  const stats = {
+    total: LOCATIONS.length,
+    flooding: floodData.filter(d => d.floodLevel > 0).length,
+    highRisk: floodData.filter(d => d.floodLevel >= 3).length,
+    safe: floodData.filter(d => d.floodLevel === 0).length
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Header */}
-      {/* <header className="bg-white shadow-sm border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          </div>
-        </div>
-      </header> */}
-
       {/* Hero Section with Image */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
@@ -51,8 +81,8 @@ const Dashboard = ({ onStartApp }) => {
               </h2>
               
               <p className="text-blue-100 text-lg mb-6">
-                Optimize logistics delivery routes using real-time flood data from satellite 
-                and ground sensors. Never get stuck in flooded areas again.
+                Optimize logistics delivery routes using real-time flood data
+                from Open-Meteo's satellite monitoring systems. Make logistic team work more efficiently.
               </p>
               
               <div className="flex flex-wrap gap-4 mb-6">
@@ -79,38 +109,29 @@ const Dashboard = ({ onStartApp }) => {
               </button>
             </div>
 
-            {/* Right: Image/Illustration Space */}
+            {/* Right: Image Space - FIXED */}
             <div className="relative">
-              {/* Placeholder for your image */}
               <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 border-2 border-white/20">
-                {/* Option 1: Add your own image here */}
-                
-                {/* Option 2: Temporary placeholder with icon (remove when you add image) */}
-                <div className="aspect-video bg-gradient-to-br from-blue-400/20 to-blue-600/20 rounded-xl flex items-center justify-center border-2 border-dashed border-white/30">
-                  <div className="text-center">
-                    {/* <MapIcon size={64} className="mx-auto mb-4 text-white/50" /> */}
-                    <p className="text-white/70 text-sm font-medium">
-                    <img src="./image copy.png" alt="Jakarta Flood Logistics"
-                    className="w-full h-auto rounded-xl shadow-2xl"
-                    />  <br />
-                    </p>
-                  </div>
-                </div>
-
-                {/* Decorative elements */}
-                <div className="absolute -top-4 -right-4 w-24 h-24 bg-yellow-400 rounded-full blur-2xl opacity-20"></div>
-                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-green-400 rounded-full blur-2xl opacity-20"></div>
+                <img 
+                  src="/image copy.png" 
+                  alt="Jakarta Flood Logistics"
+                  className="w-full h-auto rounded-xl shadow-2xl"
+                />
               </div>
 
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-yellow-400 rounded-full blur-2xl opacity-20"></div>
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-green-400 rounded-full blur-2xl opacity-20"></div>
+              
               {/* Floating stats badges */}
               <div className="absolute -left-4 top-1/4 bg-white rounded-lg shadow-xl p-3 animate-bounce" style={{ animationDuration: '3s' }}>
-                <div className="text-2xl font-bold text-blue-600">14</div>
+                <div className="text-2xl font-bold text-blue-600">{stats.total}</div>
                 <div className="text-xs text-slate-600">Locations</div>
               </div>
               
               <div className="absolute -right-4 bottom-1/4 bg-white rounded-lg shadow-xl p-3 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
-                <div className="text-2xl font-bold text-green-600">95%</div>
-                <div className="text-xs text-slate-600">Accurate</div>
+                <div className="text-2xl font-bold text-green-600">Live</div>
+                <div className="text-xs text-slate-600">Data</div>
               </div>
             </div>
           </div>
@@ -119,13 +140,20 @@ const Dashboard = ({ onStartApp }) => {
 
       <main className="max-w-7xl mx-auto px-6 py-8">
         
-        {/* Problem Overview Section */}
+        {/* Problem Overview Section - static table yh
         <section className="mb-8">
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
             <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
               <AlertTriangle className="text-orange-500" size={28} />
               The Problem
             </h2>
+                <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 border-2 border-white/20">
+                <img 
+                  src="/image.png" 
+                  alt="Jakarta Flood Logistics"
+                  className="w-96 h-auto ml-4 rounded-xl shadow-2xl"
+                />
+              </div>
             <div className="prose max-w-none">
               <p className="text-slate-700 text-base md:text-lg mb-4">
                 Jakarta experiences severe flooding during monsoon season, creating significant 
@@ -154,107 +182,219 @@ const Dashboard = ({ onStartApp }) => {
               </div>
             </div>
           </div>
+        </section> */}
+        <section className="mb-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <AlertTriangle className="text-orange-500" size={28} />
+            The Problem
+            </h2>
+
+            {/* Flex container untuk gambar dan teks */}
+            <div className="flex flex-col md:flex-row items-start gap-6">
+            {/* Gambar */}
+            <div className="flex-shrink-0">
+            {/* <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border-2 border-white/20"> */}
+                <img 
+                src="/image.png" 
+                alt="Jakarta Flood Logistics"
+                className="w-full md:w-[480px] h-auto rounded-xl shadow-2xl"
+                />
+                {/* <p> (Image Source: detik.com)</p> */}
+            </div>
+
+            {/* Teks */}
+            <div className="prose max-w-none">
+                <p className="text-slate-700 text-base md:text-lg mb-4">
+                Jakarta experiences severe flooding during monsoon season, when water levels in low-lying areas can rise rapidly during heavy rainfall. 
+                The city sits on a coastal plain crossed by 13 major rivers, including the Ciliwung and Sunter rivers that drain into Jakarta Bay (Teluk Jakarta). 
+                Combined with inadequate drainage infrastructure, land subsidence, and intense tropical downpours, this creates frequent flooding that disrupts transportation networks and paralyzes logistics operations across the city creating significant 
+                challenges for logistics operations. Additionally, traditional routing systems optimize for 
+                distance and traffic but <strong>fail to account for rapidly changing flood conditions</strong>. (Image Source: detik.com)
+                </p>
+            </div>
+            </div>
+
+            {/* Tiga kotak solusi */}
+            <div className="grid md:grid-cols-3 gap-4 md:gap-6 mt-6">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <h3 className="font-bold text-red-900 mb-2">Current Limitation</h3>
+                <p className="text-red-700 text-sm">
+                Route planning software lacks integration with real-time river discharge data and flood monitoring stations, making it impossible to predict flooded routes
+                </p>
+            </div>
+            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                <h3 className="font-bold text-orange-900 mb-2">The Impact</h3>
+                <p className="text-orange-700 text-sm">
+                Flooded routes force costly detours and delays. Drivers waste time finding alternate paths, vehicles risk water damage, and companies face increased fuel costs and overtime expenses
+                </p>
+            </div>
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <h3 className="font-bold text-green-900 mb-2">The Solution</h3>
+                <p className="text-green-700 text-sm">
+                Real-time flood monitoring + intelligent pathfinding algorithm = optimal routes that automatically avoid flooded areas and adapt as conditions change
+                </p>
+            </div>
+            </div>
+        </div>
         </section>
 
-        {/* Stats Cards */}
+        {/* Stats Cards - automatically connect real data */}
         <section className="mb-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-4">System Overview</h2>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+            <h2 className="text-2xl font-bold text-slate-900">Live System Overview</h2>
+            <div className="flex items-center gap-3">
+              {lastUpdateTime && (
+                <span className="text-xs text-slate-500">
+                  Last update: {lastUpdateTime}
+                </span>
+              )}
+              <button
+                onClick={fetchFloodData}
+                disabled={isLoadingData}
+                className="flex items-center gap-2 px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg text-xs font-semibold transition-all disabled:opacity-50"
+              >
+                <RefreshCw size={14} className={isLoadingData ? 'animate-spin' : ''} />
+                Refresh
+              </button>
+            </div>
+          </div>
+          
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             <StatsCard
               title="Locations"
-              value="14"
+              value={stats.total.toString()}
               subtitle="Monitored"
               icon={<MapIcon size={24} />}
               color="blue"
+              isLoading={isLoadingData}
             />
             <StatsCard
               title="High Risk"
-              value="6"
-              subtitle="Flood Zones"
+              value={stats.highRisk.toString()}
+              subtitle="Level 3+"
               icon={<Droplets size={24} />}
               color="red"
+              isLoading={isLoadingData}
             />
             <StatsCard
-              title="Routes"
-              value="25"
-              subtitle="Connections"
+              title="Flooding"
+              value={stats.flooding.toString()}
+              subtitle="Active"
+              icon={<AlertTriangle size={24} />}
+              color="orange"
+              isLoading={isLoadingData}
+            />
+            <StatsCard
+              title="Safe"
+              value={stats.safe.toString()}
+              subtitle="No Flood"
               icon={<CheckCircle size={24} />}
               color="green"
-            />
-            <StatsCard
-              title="Vehicles"
-              value="2"
-              subtitle="Types"
-              icon={<Navigation size={24} />}
-              color="purple"
+              isLoading={isLoadingData}
             />
           </div>
         </section>
 
-        {/* Location Table */}
+        {/* Live Flood Data Table */} 
         <section className="mb-8">
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
-              <h2 className="text-xl font-bold text-slate-900">Monitored Locations</h2>
-              <p className="text-sm text-slate-600 mt-1">
-                14 key locations across Jakarta with typical flood risk assessment
-              </p>
+            <div className="px-6 py-4 border-b border-slate-200 bg-slate-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">Live Flood Monitoring</h2>
+                <p className="text-sm text-slate-600 mt-1">
+                  Real-time data from Open-Meteo satellite and ground sensors
+                </p>
+              </div>
+              {lastUpdateTime && !isLoadingData && (
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                  <span className="text-green-600 font-semibold">Live</span>
+                </div>
+              )}
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-slate-50 border-b border-slate-200">
-                  <tr>
-                    <th className="px-4 md:px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                      Location
-                    </th>
-                    <th className="px-4 md:px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                      Zone
-                    </th>
-                    <th className="px-4 md:px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider hidden md:table-cell">
-                      Type
-                    </th>
-                    <th className="px-4 md:px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                      Risk
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-200">
-                  {LOCATIONS.map((location) => (
-                    <tr key={location.id} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-4 md:px-6 py-4">
-                        <div className="flex items-center">
-                          <div className={`w-2 h-2 rounded-full mr-2 md:mr-3 ${
-                            location.typical_risk === 'High' ? 'bg-red-500' :
-                            location.typical_risk === 'Medium' ? 'bg-yellow-500' :
-                            'bg-green-500'
-                          }`}></div>
-                          <span className="font-medium text-slate-900 text-sm md:text-base">{location.name}</span>
-                        </div>
-                      </td>
-                      <td className="px-4 md:px-6 py-4">
-                        <span className="text-slate-700 text-sm md:text-base">{location.zone}</span>
-                      </td>
-                      <td className="px-4 md:px-6 py-4 hidden md:table-cell">
-                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-slate-100 text-slate-700">
-                          {location.type}
-                        </span>
-                      </td>
-                      <td className="px-4 md:px-6 py-4">
-                        <span className={`px-2 md:px-3 py-1 text-xs font-semibold rounded-full ${
-                          location.typical_risk === 'High' 
-                            ? 'bg-red-100 text-red-700' 
-                            : location.typical_risk === 'Medium'
-                            ? 'bg-yellow-100 text-yellow-700'
-                            : 'bg-green-100 text-green-700'
-                        }`}>
-                          {location.typical_risk}
-                        </span>
-                      </td>
+            
+            {isLoadingData ? (
+              <div className="p-12 text-center">
+                <RefreshCw size={32} className="mx-auto animate-spin text-blue-500 mb-4" />
+                <p className="text-slate-600">Loading real-time flood data...</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-slate-50 border-b border-slate-200">
+                    <tr>
+                      <th className="px-4 md:px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                        Location
+                      </th>
+                      <th className="px-4 md:px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                        Zone
+                      </th>
+                      <th className="px-4 md:px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider hidden md:table-cell">
+                        Type
+                      </th>
+                      <th className="px-4 md:px-6 py-3 text-center text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                        Flood Level
+                      </th>
+                      <th className="px-4 md:px-6 py-3 text-right text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                        Discharge
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-slate-200">
+                    {LOCATIONS.map((location) => {
+                      const data = getLocationData(location.id);
+                      const floodLevel = data?.floodLevel || 0;
+                      const discharge = data?.riverDischarge || 0;
+                      
+                      return (
+                        <tr key={location.id} className="hover:bg-slate-50 transition-colors">
+                          <td className="px-4 md:px-6 py-4">
+                            <div className="flex items-center">
+                              <div className={`w-2 h-2 rounded-full mr-2 md:mr-3 ${
+                                floodLevel >= 3 ? 'bg-red-500 animate-pulse' :
+                                floodLevel > 0 ? 'bg-yellow-500' :
+                                'bg-green-500'
+                              }`}></div>
+                              <span className="font-medium text-slate-900 text-sm md:text-base">
+                                {location.name}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-4 md:px-6 py-4">
+                            <span className="text-slate-700 text-sm md:text-base">
+                              {location.zone}
+                            </span>
+                          </td>
+                          <td className="px-4 md:px-6 py-4 hidden md:table-cell">
+                            <span className="px-2 py-1 text-xs font-medium rounded-full bg-slate-100 text-slate-700">
+                              {location.type}
+                            </span>
+                          </td>
+                          <td className="px-4 md:px-6 py-4 text-center">
+                            <span className={`px-2 md:px-3 py-1 text-xs font-bold rounded-full ${
+                              floodLevel === 0 ? 'bg-green-100 text-green-700' :
+                              floodLevel === 1 ? 'bg-blue-100 text-blue-700' :
+                              floodLevel === 2 ? 'bg-yellow-100 text-yellow-700' :
+                              floodLevel === 3 ? 'bg-orange-100 text-orange-700' :
+                              'bg-red-100 text-red-700'
+                            }`}>
+                              Level {floodLevel}
+                            </span>
+                          </td>
+                          <td className="px-4 md:px-6 py-4 text-right">
+                            <div className="font-mono text-sm font-semibold text-slate-800">
+                              {discharge.toFixed(1)}
+                            </div>
+                            <div className="text-xs text-slate-500">m³/s</div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </section>
 
@@ -317,9 +457,9 @@ const Dashboard = ({ onStartApp }) => {
       {/* Footer */}
       <footer className="bg-white border-t border-slate-200 mt-16">
         <div className="max-w-7xl mx-auto px-6 py-6 text-center text-slate-600 text-sm">
-          <p>Built with React, TypeScript, Tailwind CSS, and Open-Meteo API</p>
+          <p>Built with React, JavaScript, Tailwind CSS, and Open-Meteo API</p>
           <p className="mt-2">
-            <a href="https://github.com/yourusername" className="text-blue-600 hover:underline">
+            <a href="https://github.com/nayyaraazra/flood-logistics-optimization-app" className="text-blue-600 hover:underline">
               View on GitHub
             </a>
           </p>
@@ -330,13 +470,13 @@ const Dashboard = ({ onStartApp }) => {
 };
 
 // Reusable Components
-
-const StatsCard = ({ title, value, subtitle, icon, color }) => {
+const StatsCard = ({ title, value, subtitle, icon, color, isLoading }) => {
   const colors = {
     blue: 'from-blue-500 to-blue-600',
     red: 'from-red-500 to-red-600',
     green: 'from-green-500 to-green-600',
-    purple: 'from-purple-500 to-purple-600'
+    purple: 'from-purple-500 to-purple-600',
+    orange: 'from-orange-500 to-orange-600'
   };
 
   return (
@@ -344,9 +484,18 @@ const StatsCard = ({ title, value, subtitle, icon, color }) => {
       <div className={`w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br ${colors[color]} flex items-center justify-center text-white mb-3 md:mb-4`}>
         {icon}
       </div>
-      <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-1">{value}</h3>
-      <p className="font-semibold text-slate-700 text-sm md:text-base">{title}</p>
-      <p className="text-xs md:text-sm text-slate-500">{subtitle}</p>
+      {isLoading ? (
+        <div className="animate-pulse">
+          <div className="h-8 bg-slate-200 rounded w-16 mb-2"></div>
+          <div className="h-4 bg-slate-200 rounded w-24"></div>
+        </div>
+      ) : (
+        <>
+          <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-1">{value}</h3>
+          <p className="font-semibold text-slate-700 text-sm md:text-base">{title}</p>
+          <p className="text-xs md:text-sm text-slate-500">{subtitle}</p>
+        </>
+      )}
     </div>
   );
 };
