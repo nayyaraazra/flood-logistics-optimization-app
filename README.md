@@ -67,7 +67,7 @@ npm run dev
 
 ## 🌐 Live Demo
 
-[View Live Demo](https://your-deployed-url.vercel.app)
+[View Live Demo]([https://your-deployed-url.vercel.app](https://flood-logistics-optimization-app.vercel.app/))
 
 ## 📸 Screenshots
 
@@ -89,11 +89,11 @@ VITE_API_URL=https://flood-api.open-meteo.com
 
 ## 🤝 Contributing
 
-Contributions welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
+Contributions welcome! 
 
 ## 👨‍💻 Author
 **Nayyara Aqila Azra**
-- GitHub: [@yourusername](https://github.com/nayyaraazra)
+- GitHub: [@nayyaraazra](https://github.com/nayyaraazra)
 
 ## 🙏 Acknowledgments
 
@@ -101,7 +101,7 @@ Contributions welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
 - Jakarta geography data
 - Inspired by real-world logistics challenges
   
-# React + Vite
+## React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
