@@ -53,7 +53,6 @@ If FloodLevel > VehicleMaxLevel:
 
 ## 📦 Installation
 
-\`\`\`bash
 ```
 # Clone repository
 git clone https://github.com/YOUR-USERNAME/flood-logistics-app.git
@@ -63,11 +62,10 @@ npm install
 # Run development server
 npm run dev
 ```
-\`\`\`
 
 ## 🌐 Live Demo
 
-[View Live Demo]([https://your-deployed-url.vercel.app](https://flood-logistics-optimization-app.vercel.app/))
+[View Live Demo](https://flood-logistics-optimization-app.vercel.app/)
 
 ## 📸 Screenshots
 
